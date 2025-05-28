@@ -2,14 +2,14 @@ Plans:
 
 World Changing event:
   Lightning Strike
-  Affects 7 square tiles on click
-  Changes dude to "Fairy Hunter"
+  Affects 7 square tiles on click (radius)
+  Changes dude to "Fairy Hunter" entity (implemting animatable and movable)
 
 Entity Change:
   Dude Full and Not full changes to Fairy Hunter
 
 New Entity:
   Fairy Hunter:
-    Hunts out fairies
+    Hunts out fairies (utilizing a-star targeting)
     Punches them and kills them
     Does a "Yay" ainmation when the fairy dissappears
