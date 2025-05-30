@@ -69,6 +69,7 @@ public final class VirtualWorld extends PApplet {
     // Just for debugging and for P5
     // Be sure to refactor this method as appropriate
     public void mousePressed() {
+        //TODO mouse click triggers lightning strike
         Point pressed = mouseToPoint();
         System.out.println("CLICK! " + pressed.x + ", " + pressed.y);
 
@@ -76,7 +77,12 @@ public final class VirtualWorld extends PApplet {
         if (entityOptional.isPresent()) {
             Entity entity = entityOptional.get();
             System.out.println(entity.getId() + ": " + entity.getClass());
+            //Should transform the dude into the fairy hunter
+            if(entity.getClass() == DudeFull.class || entity.getClass() == DudeNotFull.class){
+                ((Dude) entity).transformDude(this.world, this.scheduler, this.imageStore);
+            }
         }
+        //TODO lightning strike code here
 
     }
 

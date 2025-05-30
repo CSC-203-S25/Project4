@@ -68,4 +68,18 @@ public class DudeFull extends Dude {
 
         return true;
     }
+
+    @Override
+    public boolean transformDude(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
+        // create new instance of dude not full and add it to world, remove dude full
+        Movable fairy_hunter = new FairyHunter(this.getId(), this.getPosition(), this.getImages(),
+                this.getActionPeriod(), this.getAnimationPeriod());
+        world.removeEntity(scheduler, this);
+
+        world.addEntity(fairy_hunter);
+        fairy_hunter.scheduleActions(scheduler, world, imageStore);
+
+        return true;
+    }
+
 }

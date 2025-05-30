@@ -23,7 +23,10 @@ public abstract class Movable extends ActiveAnimatedEntity {
 
         return newPos;
     }
-    public abstract boolean moveTo(WorldModel model, Entity target, EventScheduler scheduler);
+
+    public boolean moveTo(WorldModel model, Entity target, EventScheduler scheduler) {
+        return false;
+    }
 
     /**
      * The entity can move to destination if it's not occupied.

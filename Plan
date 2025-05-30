@@ -10,7 +10,7 @@ Entity Change:
   Fairy Hunter:
     Hunts out fairies (utilizing a-star targeting)
     Punches them and kills them
-    Does a "Yay" ainmation when the fairy dissappears
+    Does a "Yay" animation when the fairy dissappears
 
 New Entity: (NEEDS TO BE DIFFERENT THAN ENTITY CHANGE)
   Fairy Hunter Destroyer

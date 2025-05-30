@@ -163,6 +163,7 @@ public final class WorldModel {
             throw new IllegalArgumentException(String.format("%s requires %d properties when parsing", Stump.STUMP_KEY, Stump.STUMP_NUM_PROPERTIES));
         }
     }
+    //TODO add a parse for the fairy hunter, hunter destroyer, and lightning strike
 
     public Optional<PImage> getBackgroundImage(Point pos) {
         if (withinBounds(pos)) {
