@@ -71,7 +71,6 @@ public final class VirtualWorld extends PApplet {
     // Just for debugging and for P5
     // Be sure to refactor this method as appropriate
     public void mousePressed() {
-        //TODO mouse click triggers lightning strike
         Point pressed = mouseToPoint();
         System.out.println("CLICK! " + pressed.x + ", " + pressed.y);
 
@@ -79,42 +78,84 @@ public final class VirtualWorld extends PApplet {
         if (entityOptional.isPresent()) {
             Entity entity = entityOptional.get();
             System.out.println(entity.getId() + ": " + entity.getClass());
-            //Should transform the dude into the fairy hunter
-            if(entity.getClass() == DudeFull.class || entity.getClass() == DudeNotFull.class){
+
+            if (entity instanceof DudeFull || entity instanceof DudeNotFull) {
                 ((Dude) entity).transformToHunter(this.world, this.scheduler, this.imageStore);
             }
         }
 
-        //TODO lightning strike code here
-        LightningStrike lightning = new LightningStrike("lightning", pressed, imageStore.getImageList("lightning"), 1, 1, 7);
-        lightning.executeActivity(this.world, this.imageStore, this.scheduler);
+        // Lightning Strike on click
+        LightningStrike lightning = new LightningStrike(
+                "lightning_" + System.currentTimeMillis(),
+                pressed,
+                imageStore.getImageList("lightning"),
+                100, // action period (lifetime) of lightning
+                100, // animation period (time between frames)
+                7// radius not important here
+        );
+
+        world.addEntity(lightning);
+
+        scheduler.scheduleEvent(lightning,
+                new Animation(lightning, world, imageStore, lightning.getImages().size()), // flash through all frames once
+                lightning.getAnimationPeriod());
+
+        scheduler.scheduleEvent(lightning,
+                new Activity(lightning, world, imageStore),
+                lightning.getActionPeriod());
+
+        // Now spawn HunterDestroyer
+        Random random = new Random();
+        int coordx = random.nextInt(world.getNumCols());
+        int coordy = random.nextInt(world.getNumRows());
+        Point destroyerPosition = new Point(coordx, coordy);
+
+        // Only spawn if the spot is empty
+        if (!world.isOccupied(destroyerPosition)) {
+            HunterDestroyer destroyer = new HunterDestroyer(
+                    "destroy_" + System.currentTimeMillis(),
+                    destroyerPosition,
+                    imageStore.getImageList("hammer"), // hammer image
+                    0.5,  // actionPeriod
+                    0.3   // animationPeriod (must be non-zero!)
+            );
+
+            world.addEntity(destroyer);  // ✅ ADD IT
+            destroyer.scheduleActions(scheduler, world, imageStore);
 
 
+            Random random1 = new Random();
+            int coordx1 = random.nextInt(world.getNumCols());
+            int coordy1 = random.nextInt(world.getNumRows());
+            Point hunterPosition = new Point(coordx1, coordy1);
 
-        // ---------------------------- //
+            // Only spawn if the spot is empty
+            if (!world.isOccupied(hunterPosition)) {
+                FairyHunter hunter = new FairyHunter(
+                        "hunter_" + System.currentTimeMillis(),
+                        hunterPosition,
+                        imageStore.getImageList("run"), // hammer image
+                        0.5,  // actionPeriod
+                        1   // animationPeriod (must be non-zero!)
+                );
 
-        Random x = new Random();
-        int coordx = x.nextInt(40); // Generates a value between 0 and 39
-        Random y = new Random();
-
-        int coordy = y.nextInt(30); // Generates a value between 0 and 29
-
-
-        Point HunterPosition = new Point(coordx, coordy);
-        HunterDestroyer destroyer = new HunterDestroyer("hammer", HunterPosition, imageStore.getImageList("hammer"), .5, .5);
-        destroyer.executeActivity(this.world, this.imageStore, this.scheduler);
-
-    }
-
-    public void scheduleActions(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
-        for (Entity entity : world.getEntities()) {
-            if (entity instanceof Animatable) {
-                ((Animatable) entity).scheduleActions(scheduler, world, imageStore);
-            } else if (entity instanceof Active) {
-                ((Active) entity).scheduleActions(scheduler, world, imageStore);
+                world.addEntity(hunter);  // ✅ ADD IT
+                hunter.scheduleActions(scheduler, world, imageStore);
             }
         }
     }
+
+
+        public void scheduleActions (WorldModel world, EventScheduler scheduler, ImageStore imageStore){
+            for (Entity entity : world.getEntities()) {
+                if (entity instanceof Animatable) {
+                    ((Animatable) entity).scheduleActions(scheduler, world, imageStore);
+                } else if (entity instanceof Active) {
+                    ((Active) entity).scheduleActions(scheduler, world, imageStore);
+                }
+            }
+        }
+
 
     private Point mouseToPoint() {
         return view.getViewport().viewportToWorld(mouseX / TILE_WIDTH, mouseY / TILE_HEIGHT);

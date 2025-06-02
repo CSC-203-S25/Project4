@@ -1,6 +1,7 @@
 import processing.core.PImage;
 
 import java.util.List;
+import java.util.Random;
 
 public class LightningStrike extends Movable {
     private int radius;
@@ -21,20 +22,9 @@ public class LightningStrike extends Movable {
 
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-        // Add to the world
-        if (!world.isOccupied(this.getPosition())) {
-            world.addEntity(this);
+        world.removeEntity(scheduler, this);
+        scheduler.unscheduleAllEvents(this);
         }
-
-        // Animate through all frames exactly once
-        int totalFrames = this.getImages().size();
-        scheduler.scheduleEvent(this,
-                new Animation(this, world, imageStore, 10),
-                this.getAnimationPeriod());
-
-        // Remove lightning after short action period
-//        scheduler.scheduleEvent(this,
-//                new Activity(this, world, imageStore),
-//                this.getActionPeriod());
     }
-}
+
+
