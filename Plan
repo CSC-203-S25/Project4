@@ -1,8 +1,8 @@
-Plans:
+Preliminary Plans:
 
 World Changing event:
   Lightning Strike
-  Affects 7 square tiles on click (radius)
+  Affects 7 square tiles on click (radius) -> Decided to change this to a line
   Changes dude to "Fairy Hunter" entity (implemting animatable and movable)
 
 Entity Change:

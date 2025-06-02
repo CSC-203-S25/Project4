@@ -2,13 +2,19 @@
 The event (lightning strike) should be triggered by a mouse click from the user.
 
 2. what should happen when the event is triggered
-When the event is triggered, a lightning strike should spawn, affecting all blocks in a 7 block radius (circular ish). All trees should turn into stumps, and any Dude (full or not full) should turn into the Entity called FairyHunter.
+When the event is triggered, a lightning strike should spawn, affecting all blocks in a 7 nearest possible points in a diagonal line. Any Dude (full or not full) should turn into the Entity called FairyHunter.
 
 3. what the affected entities should do
-The FairyHunter Entity should turn hostile and target the Fairy Entities.
+The FairyHunter Entity should turn hostile (from dude to FairyHunter) and target the Fairy Entities.
 
 4. what the new entity is and how it should behave
-The HunterDestroyer should target the Fairy Hunters (once they exist) and attempt to destroy them.
+The HunterDestroyer should target the Fairy Hunters (once they exist) and attempt to destroy them. One is spawned every lightning strike at a random position.
 
 5. what each partner contributed if applicable
 #TODO
+
+- Arjan
+
+- Greta
+
+- Ross

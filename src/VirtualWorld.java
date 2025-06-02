@@ -33,10 +33,10 @@ public final class VirtualWorld extends PApplet {
     public long startTimeMillis = 0;
     public double timeScale = 1.0;
 
-    private  ImageStore imageStore;
-    private  WorldModel world;
-    private  WorldView view;
-    private  EventScheduler scheduler;
+    private ImageStore imageStore;
+    private WorldModel world;
+    private WorldView view;
+    private EventScheduler scheduler;
 
     public void settings() {
         size(VIEW_WIDTH, VIEW_HEIGHT);
@@ -59,12 +59,12 @@ public final class VirtualWorld extends PApplet {
 
     public void draw() {
         double appTime = (System.currentTimeMillis() - startTimeMillis) * 0.001;
-        double frameTime = (appTime - scheduler.getCurrentTime())/timeScale;
+        double frameTime = (appTime - scheduler.getCurrentTime()) / timeScale;
         this.update(frameTime);
         view.drawViewport();
     }
 
-    public void update(double frameTime){
+    public void update(double frameTime) {
         scheduler.updateOnTime(frameTime);
     }
 
@@ -72,81 +72,107 @@ public final class VirtualWorld extends PApplet {
     // Be sure to refactor this method as appropriate
     public void mousePressed() {
         Point pressed = mouseToPoint();
+
         System.out.println("CLICK! " + pressed.x + ", " + pressed.y);
 
         Optional<Entity> entityOptional = world.getOccupant(pressed);
         if (entityOptional.isPresent()) {
             Entity entity = entityOptional.get();
             System.out.println(entity.getId() + ": " + entity.getClass());
-
-            if (entity instanceof DudeFull || entity instanceof DudeNotFull) {
-                ((Dude) entity).transformToHunter(this.world, this.scheduler, this.imageStore);
-            }
-        }
-
-        // Lightning Strike on click
-        LightningStrike lightning = new LightningStrike(
-                "lightning_" + System.currentTimeMillis(),
-                pressed,
-                imageStore.getImageList("lightning"),
-                100, // action period (lifetime) of lightning
-                100, // animation period (time between frames)
-                7// radius not important here
-        );
-
-        world.addEntity(lightning);
-
-        scheduler.scheduleEvent(lightning,
-                new Animation(lightning, world, imageStore, lightning.getImages().size()), // flash through all frames once
-                lightning.getAnimationPeriod());
-
-        scheduler.scheduleEvent(lightning,
-                new Activity(lightning, world, imageStore),
-                lightning.getActionPeriod());
-
-        // Now spawn HunterDestroyer
-        Random random = new Random();
-        int coordx = random.nextInt(world.getNumCols());
-        int coordy = random.nextInt(world.getNumRows());
-        Point destroyerPosition = new Point(coordx, coordy);
-
-        // Only spawn if the spot is empty
-        if (!world.isOccupied(destroyerPosition)) {
-            HunterDestroyer destroyer = new HunterDestroyer(
-                    "destroy_" + System.currentTimeMillis(),
-                    destroyerPosition,
-                    imageStore.getImageList("hammer"), // hammer image
-                    0.5,  // actionPeriod
-                    0.3   // animationPeriod (must be non-zero!)
-            );
-
-            world.addEntity(destroyer);  // ✅ ADD IT
-            destroyer.scheduleActions(scheduler, world, imageStore);
-
-
-            Random random1 = new Random();
-            int coordx1 = random.nextInt(world.getNumCols());
-            int coordy1 = random.nextInt(world.getNumRows());
-            Point hunterPosition = new Point(coordx1, coordy1);
-
-            // Only spawn if the spot is empty
-//            if (!world.isOccupied(hunterPosition)) {
-//                FairyHunter hunter = new FairyHunter(
-//                        "hunter_" + System.currentTimeMillis(),
-//                        hunterPosition,
-//                        imageStore.getImageList("run"), // hammer image
-//                        0.5,  // actionPeriod
-//                        0.5   // animationPeriod (must be non-zero!)
-//                );
-//
-//                world.addEntity(hunter);  // ✅ ADD IT
-//                hunter.scheduleActions(scheduler, world, imageStore);
+//            if (entity instanceof DudeFull || entity instanceof DudeNotFull) {
+//                ((Dude) entity).transformToHunter(this.world, this.scheduler, this.imageStore);
 //            }
         }
-    }
 
 
-        public void scheduleActions (WorldModel world, EventScheduler scheduler, ImageStore imageStore){
+        List<Point> neighbors = new ArrayList<>();
+        int count = 0;
+        Point light = new Point(pressed.x, pressed.y);
+
+// Start direction: down-right
+        int downx = 1;
+        int downy = 1;
+
+        while (neighbors.size() < 7) {
+            int newX = light.x + count * downx;
+            int newY = light.y + count * downy;
+
+            if (newX < 0 || newX > 39) {
+                // Out of x-bounds — reverse x direction
+                downx = -downx;
+                newX = light.x + count * downx;
+            }
+            if (newY < 0 || newY > 29) {
+                // Out of y-bounds — reverse y direction
+                downy = -downy;
+                newY = light.y + count * downy;
+            }
+
+            Point attemptedPoint = new Point(newX, newY);
+
+            // Check again: only add if still in bounds
+            if (newX >= 0 && newX <= 39 && newY >= 0 && newY <= 29) {
+                neighbors.add(attemptedPoint);
+            }
+
+            count++;
+        }
+
+
+            for (Point neighbor : neighbors) {
+                // Lightning Strike on click
+                LightningStrike lightning = new LightningStrike(
+                        "lightning_" + System.currentTimeMillis(),
+                        neighbor //Used to be pressed
+                        , imageStore.getImageList("lightning"),
+                        100, // action period (lifetime) of lightning
+                        100, // animation period (time between frames)
+                        7// radius not important here
+                );
+
+                if (world.getOccupancyCell(neighbor) instanceof DudeFull || world.getOccupancyCell(neighbor) instanceof DudeNotFull) {
+                    ((Dude) world.getOccupancyCell(neighbor)).transformToHunter(this.world, this.scheduler, this.imageStore);
+                }
+                world.addEntity(lightning);
+
+                scheduler.scheduleEvent(lightning,
+                        new Animation(lightning, world, imageStore, lightning.getImages().size()), // flash through all frames once
+                        lightning.getAnimationPeriod());
+
+                scheduler.scheduleEvent(lightning,
+                        new Activity(lightning, world, imageStore),
+                        lightning.getActionPeriod());
+
+
+            }
+
+
+            // Now spawn HunterDestroyer
+            Random random = new Random();
+            int coordx = random.nextInt(world.getNumCols());
+            int coordy = random.nextInt(world.getNumRows());
+            Point destroyerPosition = new Point(coordx, coordy);
+
+            // Only spawn if the spot is empty
+            if (!world.isOccupied(destroyerPosition)) {
+                HunterDestroyer destroyer = new HunterDestroyer(
+                        "destroy_" + System.currentTimeMillis(),
+                        destroyerPosition,
+                        imageStore.getImageList("hammer"), // hammer image
+                        0.5,  // actionPeriod
+                        0.3   // animationPeriod (must be non-zero)
+                );
+
+                world.addEntity(destroyer);
+                destroyer.scheduleActions(scheduler, world, imageStore);
+            }
+
+        }
+
+
+
+
+        public void scheduleActions (WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
             for (Entity entity : world.getEntities()) {
                 if (entity instanceof Animatable) {
                     ((Animatable) entity).scheduleActions(scheduler, world, imageStore);
@@ -235,3 +261,4 @@ public final class VirtualWorld extends PApplet {
         return virtualWorld.world.log();
     }
 }
+
