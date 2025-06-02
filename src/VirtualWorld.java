@@ -86,7 +86,7 @@ public final class VirtualWorld extends PApplet {
         }
 
         //TODO lightning strike code here
-        LightningStrike lightning = new LightningStrike("lightning", pressed, imageStore.getImageList("lightning"), 10, 10, 7);
+        LightningStrike lightning = new LightningStrike("lightning", pressed, imageStore.getImageList("lightning"), 1, 1, 7);
         lightning.executeActivity(this.world, this.imageStore, this.scheduler);
 
 
@@ -103,7 +103,6 @@ public final class VirtualWorld extends PApplet {
         Point HunterPosition = new Point(coordx, coordy);
         HunterDestroyer destroyer = new HunterDestroyer("hammer", HunterPosition, imageStore.getImageList("hammer"), .5, .5);
         destroyer.executeActivity(this.world, this.imageStore, this.scheduler);
-        //System.out.println(lightning.toString());
 
     }
 

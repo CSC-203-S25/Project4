@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class LightningStrike extends Movable implements Animatable {
+public class LightningStrike extends Movable {
     private int radius;
 
     public LightningStrike(String id, Point position, List<PImage> images, double actionPeriod, double animationPeriod, int radius) {
@@ -29,7 +29,7 @@ public class LightningStrike extends Movable implements Animatable {
         // Animate through all frames exactly once
         int totalFrames = this.getImages().size();
         scheduler.scheduleEvent(this,
-                new Animation(this, world, imageStore, 100),
+                new Animation(this, world, imageStore, 10),
                 this.getAnimationPeriod());
 
         // Remove lightning after short action period
