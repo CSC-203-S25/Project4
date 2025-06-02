@@ -16,7 +16,7 @@ public class LightningStrike extends Movable implements Animatable {
 
     @Override
     public double getAnimationPeriod() {
-        return 100; // Flash every 100ms if animated
+        return .1; // Flash every 100ms if animated
     }
 
     @Override
@@ -26,14 +26,15 @@ public class LightningStrike extends Movable implements Animatable {
             world.addEntity(this);
         }
 
-        // Schedule flash animation (optional)
+        // Animate through all frames exactly once
+        int totalFrames = this.getImages().size();
         scheduler.scheduleEvent(this,
-                new Animation(this, world, imageStore, 0), // Animate one cycle
+                new Animation(this, world, imageStore, totalFrames),
                 this.getAnimationPeriod());
 
-        // Schedule removal after short time
-        scheduler.scheduleEvent(this,
-                new Activity(this, world, imageStore),
-                this.getActionPeriod());
+        // Remove lightning after short action period
+//        scheduler.scheduleEvent(this,
+//                new Activity(this, world, imageStore),
+//                this.getActionPeriod());
     }
 }

@@ -83,11 +83,10 @@ public final class VirtualWorld extends PApplet {
             }
         }
         //TODO lightning strike code here
-        LightningStrike lightning = new LightningStrike("lightning", pressed, imageStore.getImageList("lightning"), 1, 1, 7);
-        lightning.scheduleActions(this.scheduler, this.world, this.imageStore);
+        LightningStrike lightning = new LightningStrike("lightning", pressed, imageStore.getImageList("lightning"), 1000, 1000, 7);
         lightning.executeActivity(this.world, this.imageStore, this.scheduler);
 
-        System.out.println(lightning.toString());
+        //System.out.println(lightning.toString());
 
     }
 
