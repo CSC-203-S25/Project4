@@ -81,8 +81,11 @@ public class DudeNotFull extends Dude {
 
     public boolean transformToHunter(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
         // create new instance of fairy hunter and add it to world, remove dude full
-        Movable fairy_hunter = new FairyHunter(this.getId(), this.getPosition(), this.getImages(),
-                this.getActionPeriod(), this.getAnimationPeriod());
+        Movable fairy_hunter = new FairyHunter("hunter_" + System.currentTimeMillis(),
+                this.getPosition(),
+                imageStore.getImageList("run"), // hammer image
+                0.5,  // actionPeriod
+                0.5 );
         world.removeEntity(scheduler, this);
 
         world.addEntity(fairy_hunter);

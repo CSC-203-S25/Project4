@@ -130,18 +130,18 @@ public final class VirtualWorld extends PApplet {
             Point hunterPosition = new Point(coordx1, coordy1);
 
             // Only spawn if the spot is empty
-            if (!world.isOccupied(hunterPosition)) {
-                FairyHunter hunter = new FairyHunter(
-                        "hunter_" + System.currentTimeMillis(),
-                        hunterPosition,
-                        imageStore.getImageList("run"), // hammer image
-                        0.5,  // actionPeriod
-                        1   // animationPeriod (must be non-zero!)
-                );
-
-                world.addEntity(hunter);  // ✅ ADD IT
-                hunter.scheduleActions(scheduler, world, imageStore);
-            }
+//            if (!world.isOccupied(hunterPosition)) {
+//                FairyHunter hunter = new FairyHunter(
+//                        "hunter_" + System.currentTimeMillis(),
+//                        hunterPosition,
+//                        imageStore.getImageList("run"), // hammer image
+//                        0.5,  // actionPeriod
+//                        0.5   // animationPeriod (must be non-zero!)
+//                );
+//
+//                world.addEntity(hunter);  // ✅ ADD IT
+//                hunter.scheduleActions(scheduler, world, imageStore);
+//            }
         }
     }
 
