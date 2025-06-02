@@ -160,5 +160,6 @@ public abstract class Dude extends Movable {
             WorldModel world,
             EventScheduler scheduler,
             ImageStore imageStore);
-    public abstract boolean transformDude(WorldModel world, EventScheduler scheduler, ImageStore imageStore);
+
+    public abstract boolean transformToHunter(WorldModel world, EventScheduler scheduler, ImageStore imageStore);
 }

@@ -17,7 +17,7 @@ public class HunterDestroyer extends Movable{
             return super.moveTo(model, target, scheduler);
         }    }
 
-    @Override
+    /*@Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         // Look for the nearest House to deposit resources
 
@@ -30,5 +30,28 @@ public class HunterDestroyer extends Movable{
             // Otherwise, schedule another attempt after our action period
             scheduler.scheduleEvent(this, new Activity(this, world, imageStore), this.getActionPeriod());
         }
+    }*/
+    @Override
+    public double getAnimationPeriod() {
+        return .1; // Flash every 100ms if animated
     }
-}
+
+    @Override
+    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
+        // Add to the world
+        if (!world.isOccupied(this.getPosition())) {
+            world.addEntity(this);
+        }
+
+        // Animate through all frames exactly once
+        int totalFrames = this.getImages().size();
+        scheduler.scheduleEvent(this,
+                new Animation(this, world, imageStore, totalFrames),
+                this.getAnimationPeriod());
+
+        scheduler.scheduleEvent(this,
+                new Activity(this, world, imageStore),
+                this.getActionPeriod());
+
+
+    }}

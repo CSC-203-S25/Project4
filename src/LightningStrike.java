@@ -29,7 +29,7 @@ public class LightningStrike extends Movable implements Animatable {
         // Animate through all frames exactly once
         int totalFrames = this.getImages().size();
         scheduler.scheduleEvent(this,
-                new Animation(this, world, imageStore, totalFrames),
+                new Animation(this, world, imageStore, 100),
                 this.getAnimationPeriod());
 
         // Remove lightning after short action period

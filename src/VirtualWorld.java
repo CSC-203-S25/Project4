@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.Random;
+
 
 import org.junit.jupiter.api.BeforeAll;
 import processing.core.*;
@@ -79,13 +81,28 @@ public final class VirtualWorld extends PApplet {
             System.out.println(entity.getId() + ": " + entity.getClass());
             //Should transform the dude into the fairy hunter
             if(entity.getClass() == DudeFull.class || entity.getClass() == DudeNotFull.class){
-                ((Dude) entity).transformDude(this.world, this.scheduler, this.imageStore);
+                ((Dude) entity).transformToHunter(this.world, this.scheduler, this.imageStore);
             }
         }
+
         //TODO lightning strike code here
-        LightningStrike lightning = new LightningStrike("lightning", pressed, imageStore.getImageList("lightning"), 1000, 1000, 7);
+        LightningStrike lightning = new LightningStrike("lightning", pressed, imageStore.getImageList("lightning"), 10, 10, 7);
         lightning.executeActivity(this.world, this.imageStore, this.scheduler);
 
+
+
+        // ---------------------------- //
+
+        Random x = new Random();
+        int coordx = x.nextInt(40); // Generates a value between 0 and 39
+        Random y = new Random();
+
+        int coordy = y.nextInt(30); // Generates a value between 0 and 29
+
+
+        Point HunterPosition = new Point(coordx, coordy);
+        HunterDestroyer destroyer = new HunterDestroyer("hammer", HunterPosition, imageStore.getImageList("hammer"), .5, .5);
+        destroyer.executeActivity(this.world, this.imageStore, this.scheduler);
         //System.out.println(lightning.toString());
 
     }
