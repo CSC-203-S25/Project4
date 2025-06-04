@@ -75,8 +75,8 @@ public class DudeFull extends Dude {
         Movable fairy_hunter = new FairyHunter("hunter_" + System.currentTimeMillis(),
                 this.getPosition(),
                 imageStore.getImageList("run"), // hammer image
-                0.5,  // actionPeriod
-                0.5 );
+                0.3,  // actionPeriod
+                0.3 );
         world.removeEntity(scheduler, this);
 
         world.addEntity(fairy_hunter);

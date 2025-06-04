@@ -6,6 +6,7 @@ obstacle images/water1.png
 obstacle images/water0.png
 grass images/grass.png
 flowers images/flowers.png
+burnt images/burnt_earth_tile.png
 background_default images/none.bmp
 dirt images/dirt.bmp
 dirt_horiz images/dirt_horiz.png
@@ -38,14 +39,6 @@ sapling images/sapling1.png
 sapling images/sapling2.png
 sapling images/sapling3.png
 sapling images/sapling4.png
-cheer images/cheer0.png
-cheer images/cheer1.png
-cheer images/cheer2.png
-cheer images/cheer3.png
-cheer images/cheer4.png
-cheer images/cheer5.png
-cheer images/cheer6.png
-cheer images/cheer7.png
 hammer images/hammer0.png
 hammer images/hammer1.png
 hammer images/hammer2.png

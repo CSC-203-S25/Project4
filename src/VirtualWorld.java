@@ -70,6 +70,7 @@ public final class VirtualWorld extends PApplet {
 
     // Just for debugging and for P5
     // Be sure to refactor this method as appropriate
+
     public void mousePressed() {
         Point pressed = mouseToPoint();
 
@@ -79,17 +80,14 @@ public final class VirtualWorld extends PApplet {
         if (entityOptional.isPresent()) {
             Entity entity = entityOptional.get();
             System.out.println(entity.getId() + ": " + entity.getClass());
-//            if (entity instanceof DudeFull || entity instanceof DudeNotFull) {
-//                ((Dude) entity).transformToHunter(this.world, this.scheduler, this.imageStore);
-//            }
         }
 
-
+        // calculate all neighbours or adjacent tiles to the point pressed
         List<Point> neighbors = new ArrayList<>();
         int count = 0;
         Point light = new Point(pressed.x, pressed.y);
 
-// Start direction: down-right
+    // Start direction: down-right
         int downx = 1;
         int downy = 1;
 
@@ -143,6 +141,8 @@ public final class VirtualWorld extends PApplet {
                         new Activity(lightning, world, imageStore),
                         lightning.getActionPeriod());
 
+            Background b = new Background("burnt_earth_tile.png", imageStore.getImageList("burnt"));
+            world.setBackgroundCell(neighbor, b);
 
             }
 
@@ -159,7 +159,7 @@ public final class VirtualWorld extends PApplet {
                         "destroy_" + System.currentTimeMillis(),
                         destroyerPosition,
                         imageStore.getImageList("hammer"), // hammer image
-                        0.5,  // actionPeriod
+                        0.3,  // actionPeriod
                         0.3   // animationPeriod (must be non-zero)
                 );
 
