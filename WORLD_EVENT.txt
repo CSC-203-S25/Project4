@@ -1,5 +1,10 @@
+// Arjan, Ross, Greta
+See file Plan.txt for very initial plan, although some diversions were made from this.
+
 1. how to trigger the event
 The event (lightning strike) should be triggered by a mouse click from the user.
+We decided to put the code for the lightning strike in the VirtualWorld class, in the mousePressed method.
+We thought this would be a better option to reduce duplication if we had to make another class or function with the exact same functionality, to execute something when the mouse is clicked at a point.
 
 2. what should happen when the event is triggered
 When the event is triggered, a lightning strike should spawn, affecting all blocks in a 7 nearest possible points in a diagonal line.
@@ -16,8 +21,6 @@ The HunterDestroyer should target the Fairy Hunters (once they exist) and attemp
 One is spawned every lightning strike at a random position.
 
 5. what each partner contributed if applicable
-#TODO
-
 - Arjan
 Changed all images from .gif to .png
 Added and resized images found on cartoon image website.
@@ -26,8 +29,9 @@ Found scorched tile image and added it to image list.
 Resized lightning images to be 32px by 32px and added those to image list.
 
 - Greta
-Helped get the Fairy Hunter to appear from a dude entity
-Got the Hunter Destroyer to pop up on the screen
+Created the classes for HunterDestroyer, FairyHunter, and LightningStrike; helped set up the overrides and methods
+Helped get the FairyHunter to appear from a dude entity
+Got the HunterDestroyer to pop up on the screen
 Helped get the logic for the click to trigger the spawning of the entities
 Added comments and documentation
 
@@ -38,3 +42,7 @@ Got the lightning strike to go around the bounds
 Got the scorched tile to appear where the lightning strike occurred
 Got the entities to dodge the lightning strike entity
 Got the lightning strike to affect 7 tiles
+
+- Design Decisions:
+biggest one was switching to a diagonal lightning strike instead of a circular affected area due to cautions with the corners and out of bounds tiles.
+We instead switched to a diagonal strike which switches direction if calculated to go out of bounds, also kind of scattering the strike.

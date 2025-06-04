@@ -85,10 +85,10 @@ public class DudeNotFull extends Dude {
         // create new instance of fairy hunter and add it to world, remove dude full
         Movable fairy_hunter = new FairyHunter("hunter_" + System.currentTimeMillis(),
                 this.getPosition(),
-                imageStore.getImageList("run"), // hammer image
+                imageStore.getImageList("run"), // fairy hunter image
                 0.3,  // actionPeriod
                 0.3 );
-        world.removeEntity(scheduler, this);
+        world.removeEntity(scheduler, this); // replace dude with active fairy hunter
 
         world.addEntity(fairy_hunter);
         fairy_hunter.scheduleActions(scheduler, world, imageStore);

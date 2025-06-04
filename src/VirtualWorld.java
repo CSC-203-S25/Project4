@@ -7,6 +7,11 @@ import java.util.Random;
 import org.junit.jupiter.api.BeforeAll;
 import processing.core.*;
 
+
+//Greta Gamble, Arjan Ellingson, Ross Poletti
+//We made our lightning strike a line instead of a circle around the point clicked as we thought it made more sense visually
+//The lightning effects 7 tiles and at each, if there's a dude (full or not full) present, it will be transformed into a FairyHunter
+//Decided to do many of the actions in this file because they trigger on mousePressed(), rather than having duplicate code
 public final class VirtualWorld extends PApplet {
     private static String[] ARGS;
 
@@ -71,6 +76,9 @@ public final class VirtualWorld extends PApplet {
     // Just for debugging and for P5
     // Be sure to refactor this method as appropriate
 
+    // Arjan, Ross, Greta
+
+    //We added our lightning event to this function, instead of having duplicated code where another method is triggered when a point is clicked
     public void mousePressed() {
         Point pressed = mouseToPoint();
 
@@ -91,10 +99,12 @@ public final class VirtualWorld extends PApplet {
         int downx = 1;
         int downy = 1;
 
+        //while less than 7 tiles are affected, it adds more points to the list of neighbors that will be affected by the strike
         while (neighbors.size() < 7) {
             int newX = light.x + count * downx;
             int newY = light.y + count * downy;
 
+            //Checks bounds for the corner points to make sure 7 tiles are always affected
             if (newX < 0 || newX > 39) {
                 // Out of x-bounds — reverse x direction
                 downx = -downx;
@@ -142,7 +152,7 @@ public final class VirtualWorld extends PApplet {
                     new Activity(lightning, world, imageStore),
                     lightning.getActionPeriod());
 
-            // set bg of affected tile to
+            // set bg of affected tile to be burnt
             Background b = new Background("burnt_earth_tile.png", imageStore.getImageList("burnt"));
             world.setBackgroundCell(neighbor, b);
 
@@ -150,28 +160,28 @@ public final class VirtualWorld extends PApplet {
         } // end for
 
 
-            // Now spawn HunterDestroyer
-            Random random = new Random();
-            int coordx = random.nextInt(world.getNumCols());
-            int coordy = random.nextInt(world.getNumRows());
-            Point destroyerPosition = new Point(coordx, coordy);
+        // Now spawn HunterDestroyer
+        Random random = new Random();
+        int coordx = random.nextInt(world.getNumCols());
+        int coordy = random.nextInt(world.getNumRows());
+        Point destroyerPosition = new Point(coordx, coordy);
 
-            // Only spawn if the spot is empty
-            if (!world.isOccupied(destroyerPosition)) {
-                HunterDestroyer destroyer = new HunterDestroyer(
-                        "destroy_" + System.currentTimeMillis(),
-                        destroyerPosition,
-                        imageStore.getImageList("hammer"), // hammer image
-                        0.3,  // actionPeriod
-                        0.3   // animationPeriod (must be non-zero)
-                );
+        // Only spawn if the spot is empty
+        if (!world.isOccupied(destroyerPosition)) {
+            HunterDestroyer destroyer = new HunterDestroyer(
+                    "destroy_" + System.currentTimeMillis(),
+                    destroyerPosition,
+                    imageStore.getImageList("hammer"), // hammer image
+                    0.3,  // actionPeriod
+                    0.3   // animationPeriod (must be non-zero)
+            );
 
-                world.addEntity(destroyer);
-                destroyer.scheduleActions(scheduler, world, imageStore);
-            }
-
-
+            world.addEntity(destroyer);
+            destroyer.scheduleActions(scheduler, world, imageStore);
         }
+
+
+    }
 
 
 

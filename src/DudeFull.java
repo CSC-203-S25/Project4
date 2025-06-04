@@ -76,7 +76,7 @@ public class DudeFull extends Dude {
         // create new instance of fairy hunter and add it to world, remove dude full
         Movable fairy_hunter = new FairyHunter("hunter_" + System.currentTimeMillis(),
                 this.getPosition(),
-                imageStore.getImageList("run"), // hammer image
+                imageStore.getImageList("run"), // run image for fairy hunter
                 0.3,  // actionPeriod
                 0.3 );
         world.removeEntity(scheduler, this);
