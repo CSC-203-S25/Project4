@@ -70,11 +70,14 @@ public class Fairy extends Movable {
         // Instantiate A*
         PathingStrategy aStar = new AStarPathingStrategy();
 
-        // Pass‐through test: in‐bounds AND (empty OR stump)
+        // Pass‐through test: in‐bounds AND (empty OR Lightning Strike)
         Predicate<Point> canPassThrough = p ->
                 world.withinBounds(p)
                         && (
                         !world.isOccupied(p)
+                                || world.getOccupant(p)
+                                .filter(e -> e instanceof LightningStrike)
+                                .isPresent()
                 );
 
         // We’re “within reach” when adjacent

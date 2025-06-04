@@ -69,6 +69,8 @@ public class DudeFull extends Dude {
         return true;
     }
 
+
+    //This transforms the DudeFull into a fairy hunter from its current state
     @Override
     public boolean transformToHunter(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
         // create new instance of fairy hunter and add it to world, remove dude full

@@ -2,19 +2,39 @@
 The event (lightning strike) should be triggered by a mouse click from the user.
 
 2. what should happen when the event is triggered
-When the event is triggered, a lightning strike should spawn, affecting all blocks in a 7 nearest possible points in a diagonal line. Any Dude (full or not full) should turn into the Entity called FairyHunter.
+When the event is triggered, a lightning strike should spawn, affecting all blocks in a 7 nearest possible points in a diagonal line.
+The effected blocks show an entity (lightning strike) and change the blocks to a "burnt grass" like block.
+Any Dude (full or not full) should turn into the Entity called FairyHunter.
+And the Hunter destroyer spawns on random x y throughout the world bounds.
 
 3. what the affected entities should do
 The FairyHunter Entity should turn hostile (from dude to FairyHunter) and target the Fairy Entities.
+A few hits from adjacent tiles should remove the fairies.
 
 4. what the new entity is and how it should behave
-The HunterDestroyer should target the Fairy Hunters (once they exist) and attempt to destroy them. One is spawned every lightning strike at a random position.
+The HunterDestroyer should target the Fairy Hunters (once they exist) and attempt to destroy them.
+One is spawned every lightning strike at a random position.
 
 5. what each partner contributed if applicable
 #TODO
 
 - Arjan
+Changed all images from .gif to .png
+Added and resized images found on cartoon image website.
+Added new fairy hunter and hunter destroyer images to image list.
+Found scorched tile image and added it to image list.
+Resized lightning images to be 32px by 32px and added those to image list.
 
 - Greta
+Helped get the Fairy Hunter to appear from a dude entity
+Got the Hunter Destroyer to pop up on the screen
+Helped get the logic for the click to trigger the spawning of the entities
+Added comments and documentation
+
 
 - Ross
+Got the lightning strike to hit the dudes and transform them
+Got the lightning strike to go around the bounds
+Got the scorched tile to appear where the lightning strike occurred
+Got the entities to dodge the lightning strike entity
+Got the lightning strike to affect 7 tiles

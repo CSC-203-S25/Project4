@@ -79,6 +79,8 @@ public class DudeNotFull extends Dude {
         return false;
     }
 
+    //This transforms the DudeNotFull into a fairy hunter from it's current state
+    @Override
     public boolean transformToHunter(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
         // create new instance of fairy hunter and add it to world, remove dude full
         Movable fairy_hunter = new FairyHunter("hunter_" + System.currentTimeMillis(),

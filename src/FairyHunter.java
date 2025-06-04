@@ -29,7 +29,13 @@ public class FairyHunter extends Movable{
         PathingStrategy aStar = new AStarPathingStrategy();
 
         Predicate<Point> canPassThrough = p ->
-                world.withinBounds(p) && !world.isOccupied(p);
+                world.withinBounds(p)
+                        && (
+                        !world.isOccupied(p)
+                                || world.getOccupant(p)
+                                .filter(e -> e instanceof LightningStrike)
+                                .isPresent()
+                );
 
         BiPredicate<Point, Point> withinReach = Point::adjacent;
 

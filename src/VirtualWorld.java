@@ -87,7 +87,7 @@ public final class VirtualWorld extends PApplet {
         int count = 0;
         Point light = new Point(pressed.x, pressed.y);
 
-    // Start direction: down-right
+        // Start direction: down-right
         int downx = 1;
         int downy = 1;
 
@@ -116,35 +116,38 @@ public final class VirtualWorld extends PApplet {
             count++;
         }
 
+        // affect 7 tiles
+        for (Point neighbor : neighbors) {
+            // Lightning Strike on click
+            LightningStrike lightning = new LightningStrike(
+                    "lightning_" + System.currentTimeMillis(),
+                    neighbor //Used to be pressed
+                    , imageStore.getImageList("lightning"),
+                    100, // action period (lifetime) of lightning
+                    100, // animation period (time between frames)
+                    7// radius not important here
+            );
 
-            for (Point neighbor : neighbors) {
-                // Lightning Strike on click
-                LightningStrike lightning = new LightningStrike(
-                        "lightning_" + System.currentTimeMillis(),
-                        neighbor //Used to be pressed
-                        , imageStore.getImageList("lightning"),
-                        100, // action period (lifetime) of lightning
-                        100, // animation period (time between frames)
-                        7// radius not important here
-                );
+            if (world.getOccupancyCell(neighbor) instanceof DudeFull || world.getOccupancyCell(neighbor) instanceof DudeNotFull) {
+                ((Dude) world.getOccupancyCell(neighbor)).transformToHunter(this.world, this.scheduler, this.imageStore);
+            }
+            world.addEntity(lightning);
 
-                if (world.getOccupancyCell(neighbor) instanceof DudeFull || world.getOccupancyCell(neighbor) instanceof DudeNotFull) {
-                    ((Dude) world.getOccupancyCell(neighbor)).transformToHunter(this.world, this.scheduler, this.imageStore);
-                }
-                world.addEntity(lightning);
+            // schedule lightning events and actions
+            scheduler.scheduleEvent(lightning,
+                    new Animation(lightning, world, imageStore, lightning.getImages().size()), // flash through all frames once
+                    lightning.getAnimationPeriod());
 
-                scheduler.scheduleEvent(lightning,
-                        new Animation(lightning, world, imageStore, lightning.getImages().size()), // flash through all frames once
-                        lightning.getAnimationPeriod());
+            scheduler.scheduleEvent(lightning,
+                    new Activity(lightning, world, imageStore),
+                    lightning.getActionPeriod());
 
-                scheduler.scheduleEvent(lightning,
-                        new Activity(lightning, world, imageStore),
-                        lightning.getActionPeriod());
-
+            // set bg of affected tile to
             Background b = new Background("burnt_earth_tile.png", imageStore.getImageList("burnt"));
             world.setBackgroundCell(neighbor, b);
 
-            }
+
+        } // end for
 
 
             // Now spawn HunterDestroyer
@@ -166,6 +169,7 @@ public final class VirtualWorld extends PApplet {
                 world.addEntity(destroyer);
                 destroyer.scheduleActions(scheduler, world, imageStore);
             }
+
 
         }
 

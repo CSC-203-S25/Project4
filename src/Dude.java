@@ -91,6 +91,8 @@ public abstract class Dude extends Movable {
                         !world.isOccupied(p)
                                 || world.getOccupant(p)
                                 .filter(e -> e instanceof Stump)
+                                .isPresent() || world.getOccupant(p)
+                                .filter(e -> e instanceof LightningStrike)
                                 .isPresent()
                 );
 
